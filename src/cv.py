@@ -35,7 +35,13 @@ def calibrate(images, grid_w=9, grid_h=6, verbose=True):
         else:
             st.text(name + ' failed!')
 
-    # 2. CALIBRATE
+    # 2. CALIBRATE: 
+    # Distortion coeffs
+    # dist = (k1, k2, p1, p2, k3)
+    # Intrinsic params: focal length (f1, f2), optical center (c1, c2)
+    # mtx = ((f1, 0, c1), (0, f2, c2), (0, 0, 1))
+    # Extrinsic params
+    # rvecs = rodrigues rotation vectors, tvecs = translation vectors
     retval, mtx, dist, rvecs, tvecs = cv.calibrateCamera(objpoints, imgpoints, calibration_shape, None, None)
     print('camera matrix\n', mtx)
     print(f'returned error  {retval:.2f} pixels')
