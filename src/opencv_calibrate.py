@@ -35,11 +35,11 @@ if __name__ == '__main__':
 
     args, img_mask = getopt.getopt(sys.argv[1:], '', ['debug=', 'square_size=', 'threads='])
     args = dict(args)
-    args.setdefault('--debug', '../data/example/output/')
+    args.setdefault('--debug', '../data/example2/output/')
     args.setdefault('--square_size', 1.0)
     args.setdefault('--threads', 4)
     if not img_mask:
-        img_mask = '../data/example/good/*.jpg'  # default
+        img_mask = '../data/example2/good/*.jpg'  # default
     else:
         img_mask = img_mask[0]
 
@@ -49,7 +49,7 @@ if __name__ == '__main__':
         os.mkdir(debug_dir)
     square_size = float(args.get('--square_size'))
 
-    pattern_size = (9, 6)
+    pattern_size = (49, 24)
     pattern_points = np.zeros((np.prod(pattern_size), 3), np.float32)
     pattern_points[:, :2] = np.indices(pattern_size).T.reshape(-1, 2)
     pattern_points *= square_size

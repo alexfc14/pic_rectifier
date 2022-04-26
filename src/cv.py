@@ -3,7 +3,8 @@ import cv2 as cv
 
 import streamlit as st
 
-def calibrate(images, grid_w=9, grid_h=6, verbose=True):
+# def calibrate(images, grid_w=9, grid_h=6, verbose=True):
+def calibrate(images, grid_w=49, grid_h=24, verbose=True):
     # 1. DETECT KEYPOINTS
     # termination criteria
     criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001)
@@ -38,10 +39,13 @@ def calibrate(images, grid_w=9, grid_h=6, verbose=True):
     # 2. CALIBRATE: 
     # Distortion coeffs
     # dist = (k1, k2, p1, p2, k3)
-    # Intrinsic params: focal length (f1, f2), optical center (c1, c2)
+    # Intrinsic params: 
+    # focal length (f1, f2), 
+    # optical center (c1, c2)
     # mtx = ((f1, 0, c1), (0, f2, c2), (0, 0, 1))
     # Extrinsic params
-    # rvecs = rodrigues rotation vectors, tvecs = translation vectors
+    # rvecs = rodrigues rotation vectors
+    # tvecs = translation vectors
     retval, mtx, dist, rvecs, tvecs = cv.calibrateCamera(objpoints, imgpoints, calibration_shape, None, None)
     print('camera matrix\n', mtx)
     print(f'returned error  {retval:.2f} pixels')
@@ -78,11 +82,11 @@ if __name__ == '__main__':
     import os
     from PIL import Image
     images = {}
-    path = '../data/example/good/'
+    path = '../data/example2/good/'
     for fp in os.listdir(path):
-        with open('../data/example/good/' + fp, 'rb') as f:
+        with open(path + fp, 'rb') as f:
             image = Image.open(f)
             img_array = np.array(image)
             images[fp] = img_array
-    params = calibrate(images, verbose=False)
+    params = calibrate(images, grid_w=49, grid_h=24, verbose=False)
     undistorted = undistort(img_array, *params)
